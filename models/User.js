@@ -1,39 +1,42 @@
 const mongoose = require('mongoose');
-const bycript =  require('bycriptjs');
+const bcrypt = require('bcryptjs');
 
-const UserShema = new mongoose.Shema({
-    username: {type: String, require:true, unique:true},
-    email: {type: String, require:true, unique:true},
-    password: {type: String, require:true},
-    roles: [{type: String, enum:['admin','coordinador','auxiliar']}]
+const UserSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    roles: [{ type: String, enum: ['admin', 'coordinador', 'auxiliar'] }]
 }, {
-    timestamp:true,
-    versionkey: false,
-    toJSON: {virtuals: true},
-    toObject: {virtuals: true}
+    timestamps: true,
+    versionKey: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
-//hook pre-save
-UserShema.pre('save', async function(next){
-    //solo hashear password si fue modificado
-    if (!this.isModified('password')) return
-    next();
+// Hook pre-save
+UserSchema.pre('save', async function (next) {
+    // Solo hashear la contraseña si ha sido modificada
+    if (!this.isModified('password')) return next(); // Pasar a next() solo si no se modificó la contraseña
 
-    try{
+    try {
         console.log('Contraseña antes de hashear: ', this.password);
-        const salt = await bcrypt.getSalt(12);
-        this.password = await bycript.hash(this.password)
-        console.log('Contraseña hasheada: ', this.password)
+        // Generar salt
+        const salt = await bcrypt.genSalt(12);
+        // Hashear la contraseña
+        this.password = await bcrypt.hash(this.password, salt);
+        console.log('Contraseña hasheada: ', this.password);
+        
+        // Después de hashear la contraseña, pasar al siguiente middleware
         next();
-    } catch(err) {
+    } catch (err) {
         console.error('Error al hashear: ', err);
-        next(err);
-    } 
+        next(err); // Pasar el error al siguiente middleware en caso de fallo
+    }
 });
 
-//metodo para comparar contraseñas
-UserShema.methods.comparePassword = async function (candidiatePassword) {
-    return await bcrypt.compare(candidiatePassword, this.password)
+// Método para comparar contraseñas
+UserSchema.methods.comparePassword = async function (candidatePassword) {
+    return await bcrypt.compare(candidatePassword, this.password);
 };
 
-module.exports = mongoose.model('user', UserShema);
+module.exports = mongoose.model('User', UserSchema);

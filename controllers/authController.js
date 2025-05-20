@@ -33,7 +33,7 @@ exports.signup = async (req, res) => {
         res.status(201).json({
             success: true,
             message: 'Usuario creado exitosamente',
-            accesToken: token
+            accessToken: token
         });
     } catch (error) {
         console.error('Error de registro: ', error);
@@ -76,7 +76,7 @@ exports.signin = async (req, res) =>{
 
             return res.status(401).json({
                 success: false,
-                accesToken: null,
+                accessToken: null,
                 message:'credenciales invalidas'
             })
         }
@@ -100,7 +100,7 @@ exports.signin = async (req, res) =>{
             email: user.email,
             roles: user.roles
         },
-        accesToken: token,
+        accessToken: token,
     });
     } catch (error) {
         console.error('Error en el login: ', error);

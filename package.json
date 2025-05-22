@@ -1,5 +1,5 @@
 {
-  "name": "crud-mongodb2",
+  "name": "crud-mongo-user",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

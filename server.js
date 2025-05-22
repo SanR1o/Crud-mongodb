@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Conexión a MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/crud-mongodb2') 
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/crud-mongo-user') 
   .then(() => console.log('Ok, conexión a MongoDB exitosa'))
   .catch(err => console.error('Error de conexión a MongoDB:', err));
 

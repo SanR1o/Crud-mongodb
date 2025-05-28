@@ -1,3 +1,3 @@
-Dependencias a descargar: npm install express mongoose bcryptjs.jsonwbtooken cors dotenv body-parser
+npm install express mongoose bcryptjs.jsonwbtooken cors dotenv body-parser
 
-Iniciar: npm run dev
+Start: npm run dev

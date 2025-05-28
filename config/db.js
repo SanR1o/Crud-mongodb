@@ -1,1 +1,1 @@
-module.exports = {url: process.env.MONGODB_URI || "mongo db://localhost:27017/crud-mongo-user"};
+module.exports = {url: process.env.MONGODB_URI || "mongo db://localhost:27017/Jwt_Bcrypt_test"};
